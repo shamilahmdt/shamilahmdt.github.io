@@ -1,0 +1,121 @@
+---
+import { Image } from 'astro:assets';
+import restApiIcon from '../assets/images/restapi.jpg';
+
+const skills = [
+  { name: "HTML", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg", percent: "90%", desc: "HTML is the standard markup language for building web pages." },
+  { name: "CSS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg", percent: "85%", desc: "CSS is used to style and layout web pages, including colors and fonts." },
+  { name: "JavaScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg", percent: "80%", desc: "JavaScript adds interactivity and dynamic features to websites." },
+  { name: "TailwindCSS", icon: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg", percent: "85%", desc: "TailwindCSS is a utility-first CSS framework for fast UI development." },
+  { name: "Python", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg", percent: "88%", desc: "Python is a versatile programming language great for web and data science." },
+  { name: "Django", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg", percent: "82%", desc: "Django is a high-level Python web framework for rapid development." },
+  { name: "React", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg", percent: "78%", desc: "React is a JavaScript library for building user interfaces efficiently." },
+  { name: "REST API", icon: restApiIcon, percent: "75%", desc: "REST APIs allow communication between different software systems.", invert: true },
+];
+---
+<section id="skills" class="w-full sm:w-[85%] mx-auto text-center pb-44 mt-[10vh] relative z-10">
+  <div class="text-center pt-14 pop">
+    <h2 class="text-3xl md:text-4xl font-bold mb-3 text-white">Skills</h2>
+    <div class="w-14 h-1 bg-gradient-to-r from-cyan-500 to-blue-600 mx-auto"></div>
+  </div>
+
+  <div class="relative w-[98%] md:w-[95%] mx-auto mt-20">
+    <div id="slider" class="flex gap-4 md:gap-6 overflow-x-auto md:overflow-hidden scroll-smooth pb-4 no-scrollbar">
+      {skills.map((skill) => (
+        <div class="flip-card flex-shrink-0 w-40 h-56 md:w-48 md:h-64 cursor-pointer">
+          <div class="flip-inner w-full h-full relative">
+            <div class="flip-front absolute w-full h-full bg-gray-800 text-white flex flex-col items-center justify-between rounded-lg shadow-lg p-4">
+              <h3 class="font-bold text-md md:text-lg">{skill.name}</h3>
+              {typeof skill.icon === 'string' ? (
+                <img src={skill.icon} class={`w-12 h-12 md:w-16 md:h-16 ${skill.invert ? 'invert' : ''}`} alt={`${skill.name} icon`} loading="lazy" width="64" height="64" />
+              ) : (
+                <Image src={skill.icon} class={`w-12 h-12 md:w-16 md:h-16 ${skill.invert ? 'invert' : ''}`} alt={`${skill.name} icon`} loading="lazy" width={64} height={64} />
+              )}
+              <span class="text-sm md:text-md font-semibold">{skill.percent}</span>
+            </div>
+            <div class="flip-back absolute w-full h-full bg-gray-700 text-white flex items-center justify-center rounded-lg shadow-lg p-4">
+              <p class="text-center text-xs md:text-sm">{skill.desc}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Navigation Buttons (desktop only) -->
+    <button id="prev-btn" class="hidden md:flex items-center justify-center absolute top-1/2 -translate-y-1/2 -left-6 bg-gray-700 hover:bg-gray-600 text-white w-10 h-10 rounded-full shadow-lg transition" aria-label="Previous Skill">
+      ❮
+    </button>
+    <button id="next-btn" class="hidden md:flex items-center justify-center absolute top-1/2 -translate-y-1/2 -right-6 bg-gray-700 hover:bg-gray-600 text-white w-10 h-10 rounded-full shadow-lg transition" aria-label="Next Skill">
+      ❯
+    </button>
+  </div>
+</section>
+
+<style>
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>
+
+<script>
+  const slider = document.getElementById("slider");
+  const prevBtn = document.getElementById("prev-btn");
+  const nextBtn = document.getElementById("next-btn");
+  
+  if (slider && prevBtn && nextBtn) {
+    let cardWidth = 0;
+
+    function updateCardWidth() {
+      const card = slider?.querySelector(".flip-card");
+      if (card instanceof HTMLElement) {
+        const style = getComputedStyle(slider!);
+        const gap = parseInt(style.columnGap || style.gap || "24");
+        cardWidth = card.offsetWidth + gap;
+      }
+    }
+
+    window.addEventListener("resize", updateCardWidth);
+    updateCardWidth();
+
+    prevBtn.addEventListener("click", () => {
+      slider!.scrollBy({ left: -cardWidth, behavior: "smooth" });
+    });
+
+    nextBtn.addEventListener("click", () => {
+      slider!.scrollBy({ left: cardWidth, behavior: "smooth" });
+    });
+
+    // Drag to scroll
+    let isDown = false;
+    let startX: number, scrollLeft: number;
+
+    slider.addEventListener("mousedown", (e) => {
+      isDown = true;
+      slider.classList.add("cursor-grabbing");
+      startX = e.pageX - slider.offsetLeft;
+      scrollLeft = slider.scrollLeft;
+    });
+
+    slider.addEventListener("mouseleave", () => {
+      isDown = false;
+      slider.classList.remove("cursor-grabbing");
+    });
+
+    slider.addEventListener("mouseup", () => {
+      isDown = false;
+      slider.classList.remove("cursor-grabbing");
+    });
+
+    slider.addEventListener("mousemove", (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - slider.offsetLeft;
+      const walk = (x - startX) * 2;
+      slider.scrollLeft = scrollLeft - walk;
+    });
+  }
+</script>

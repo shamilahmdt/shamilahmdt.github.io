@@ -1,0 +1,123 @@
+---
+---
+<div class="cursor-dot"></div>
+<div class="cursor-outline"></div>
+
+<style is:global>
+  html, body {
+    cursor: none;
+  }
+  
+  a, button, [role="button"], input, textarea {
+    cursor: none !important;
+  }
+
+  .cursor-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #06b6d4;
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    z-index: 9999;
+    pointer-events: none;
+    transition: width 0.2s, height 0.2s, background-color 0.2s, opacity 0.3s;
+    will-change: transform;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+  }
+
+  .cursor-outline {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #06b6d4;
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    z-index: 9998;
+    pointer-events: none;
+    will-change: transform;
+    opacity: 0;
+    transition: opacity 0.3s;
+    transform: translate(-50%, -50%);
+  }
+
+  /* Hover state */
+  .cursor-hover .cursor-dot {
+    width: 12px;
+    height: 12px;
+    background-color: rgba(6, 182, 212, 0.5);
+  }
+
+  .cursor-hover .cursor-outline {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(6, 182, 212, 0.1);
+    border-color: rgba(6, 182, 212, 0.3);
+  }
+
+  @media (max-width: 768px) {
+    .cursor-dot, .cursor-outline {
+      display: none;
+    }
+    * {
+      cursor: auto !important;
+    }
+  }
+</style>
+
+<script>
+    // Use a more reliable check for touch vs mouse
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    
+    if (isTouchDevice && window.innerWidth < 768) {
+      document.documentElement.style.setProperty('cursor', 'auto', 'important');
+    } else {
+      function initCursor() {
+        const cursorDot = document.querySelector(".cursor-dot") as HTMLElement;
+        const cursorOutline = document.querySelector(".cursor-outline") as HTMLElement;
+
+        if (!cursorDot || !cursorOutline) return;
+
+        let mouseX = 0;
+        let mouseY = 0;
+        let outlineX = 0;
+        let outlineY = 0;
+
+        window.addEventListener("mousemove", (e) => {
+          mouseX = e.clientX;
+          mouseY = e.clientY;
+          cursorDot.style.opacity = "1";
+          cursorOutline.style.opacity = "1";
+          cursorDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+        }, { passive: true });
+
+        function animate() {
+          outlineX += (mouseX - outlineX) * 0.15;
+          outlineY += (mouseY - outlineY) * 0.15;
+          cursorOutline.style.transform = `translate3d(${outlineX}px, ${outlineY}px, 0) translate(-50%, -50%)`;
+          requestAnimationFrame(animate);
+        }
+        animate();
+
+        document.addEventListener('mouseover', (e) => {
+          const target = e.target as HTMLElement;
+          if (target.closest('a, button, .cursor-pointer, input, textarea, [role="button"]')) {
+            document.body.classList.add('cursor-hover');
+          }
+        });
+
+        document.addEventListener('mouseout', (e) => {
+          const target = e.target as HTMLElement;
+          if (target.closest('a, button, .cursor-pointer, input, textarea, [role="button"]')) {
+            document.body.classList.remove('cursor-hover');
+          }
+        });
+      }
+
+      // Initialize cursor quickly
+      setTimeout(initCursor, 50);
+    }
+</script>

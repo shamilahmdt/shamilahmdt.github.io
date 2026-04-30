@@ -1,0 +1,53 @@
+---
+---
+<header id="home" class="riseup h-auto py-2 backdrop-blur-lg border-b border-white/10 relative z-10">
+  <div class="flex justify-between items-center px-4 max-w-7xl mx-auto">
+    <!-- Logo -->
+    <div class="text-white font-bold text-sm sm:text-xl pt-2 tracking-tighter">SHAMIL<span class="text-cyan-500">.DEV</span></div>
+
+    <!-- Desktop Menu -->
+    <ul class="hidden md:flex gap-12 pt-2">
+      <li><a href="#home" class="text-white nav-item">HOME</a></li>
+      <li><a href="#about" class="text-white nav-item">ABOUT</a></li>
+      <li><a href="#skills" class="text-white nav-item">SKILL</a></li>
+      <li><a href="#projects" class="text-white nav-item">PROJECT</a></li>
+      <li><a href="#contact" class="text-white nav-item">CONTACT</a></li>
+    </ul>
+
+    <!-- Mobile Menu Icon -->
+    <button id="menu-btn" class="block md:hidden py-1 text-white text-2xl focus:outline-none" aria-label="Toggle Menu">
+      <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="mobile-menu md:hidden bg-black/50 px-6 mt-2 rounded-lg">
+    <ul class="flex flex-col gap-4 py-4">
+      <li><a href="#home" class="text-white nav-item block">HOME</a></li>
+      <li><a href="#about" class="text-white nav-item block">ABOUT</a></li>
+      <li><a href="#skills" class="text-white nav-item block">SKILL</a></li>
+      <li><a href="#projects" class="text-white nav-item block">PROJECT</a></li>
+      <li><a href="#contact" class="text-white nav-item block">CONTACT</a></li>
+    </ul>
+  </div>
+</header>
+
+<script>
+  const menuBtn = document.getElementById("menu-btn");
+  const mobileMenu = document.getElementById("mobile-menu");
+
+  if (menuBtn && mobileMenu) {
+    // Toggle menu
+    menuBtn.addEventListener("click", () => {
+      mobileMenu.classList.toggle("open");
+    });
+
+    // Auto-close menu when a link is clicked
+    const mobileLinks = mobileMenu.querySelectorAll("a");
+    mobileLinks.forEach(link => {
+      link.addEventListener("click", () => {
+        mobileMenu.classList.remove("open");
+      });
+    });
+  }
+</script>

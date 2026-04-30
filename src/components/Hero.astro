@@ -1,0 +1,80 @@
+---
+---
+<section class="relative z-10">
+  <div class="sm:w-[60%] h-[70vh] sm:h-[65vh] mx-auto mt-20 sm:mt-40 gap-10">
+    <div class="w-full text-center md:text-center mx-auto mt-14">
+      <h4 class="text-white text-lg mb-2">Hello,</h4>
+      <h1 class="text-white text-3xl sm:text-4xl md:text-5xl font-bold mb-2">
+        I'm <span class="bg-gradient-to-r from-cyan-400 to-cyan-700 text-4xl sm:text-6xl text-transparent bg-clip-text">Shamil Ahammed T</span>
+      </h1>
+      <div class="min-h-[1.5em] flex items-center justify-center">
+        <p id="typing-text" class="text-white my-3 sm:my-5 text-[19px] sm:text-[25px] font-mono"></p>
+      </div>
+      <p class="text-white mb-6 text-[14px] sm:text-[18px] px-4 sm:px-16 text-justify sm:text-center">
+        I build responsive, user-friendly web applications from start to finish. Using Django for the
+        backend and React, Tailwind CSS, and HTML/JavaScript on the frontend, I turn ideas into smooth, functional
+        web experiences.
+      </p>
+      <div class="flex justify-center mt-4 gap-6">
+        <a class="border border-white rounded-xl py-2 px-5 sm:py-2 sm:px-6 text-sm sm:text-base text-white hover:bg-white/10 transition-colors"
+          href="https://drive.google.com/file/d/14n_TKt9L8-FpQcMfLc_HzFSgd6sSfR2_/view?usp=drive_link" target="_blank" rel="noopener noreferrer">
+          Resume
+        </a>
+        <a class="border border-white rounded-xl py-2 px-5 sm:py-2 sm:px-6 text-sm sm:text-base text-white hover:bg-white/10 transition-colors"
+          href="#projects">
+          Projects
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const typingElement = document.getElementById("typing-text");
+  if (typingElement) {
+    const texts = [
+      "Full Stack Web Developer ",
+      "Django Developer  ",
+      "Front End Developer  ",
+      "Backend Developer  ",
+      "React Developer  ",
+      "Freelancer  "
+    ];
+
+    let textIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let typingSpeed = 100;
+    let pauseTime = 2000;
+
+    function type() {
+      const currentText = texts[textIndex];
+      if (isDeleting) {
+        typingElement!.innerHTML = currentText.substring(0, charIndex) + '<span class="border-r-2 border-white animate-pulse"></span>';
+        charIndex--;
+      } else {
+        typingElement!.innerHTML = currentText.substring(0, charIndex) + '<span class="border-r-2 border-white animate-pulse"></span>';
+        charIndex++;
+      }
+
+      if (!isDeleting && charIndex === currentText.length) {
+        isDeleting = true;
+        setTimeout(type, pauseTime);
+        return;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        textIndex = (textIndex + 1) % texts.length;
+      }
+
+      setTimeout(type, isDeleting ? typingSpeed / 2 : typingSpeed);
+    }
+    function startTyping() {
+      if ('requestIdleCallback' in window) {
+        (window as any).requestIdleCallback(() => type());
+      } else {
+        setTimeout(type, 200);
+      }
+    }
+    startTyping();
+  }
+</script>

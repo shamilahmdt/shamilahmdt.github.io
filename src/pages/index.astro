@@ -1,0 +1,95 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import Skills from '../components/Skills.astro';
+import Projects from '../components/Projects.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout>
+	<div class="px-[7%] w-full relative text-white">
+		<Header />
+		<main>
+			<Hero />
+			<About />
+			<Skills />
+			<Projects />
+			<Contact />
+		</main>
+	</div>
+	<Footer />
+</Layout>
+
+<script>
+	// Optimized script loading - only run after initial render
+	function initPerformanceScripts() {
+		const container = document.getElementById("ripple-container");
+		if (!container) return;
+
+		function createRipple(x: number, y: number) {
+			const ripple = document.createElement("div");
+			const baseSize = window.innerWidth < 640 ? 50 : 100;
+			ripple.className = "ripple";
+			ripple.style.width = ripple.style.height = `${baseSize}px`;
+			ripple.style.left = `${x - baseSize / 2}px`;
+			ripple.style.top = `${y - baseSize / 2}px`;
+			container!.appendChild(ripple);
+			ripple.addEventListener("animationend", () => ripple.remove(), { once: true });
+		}
+
+		// Rhythmic background ripples (bursts of 2-3)
+		function startRandomRipples() {
+			if (document.hidden) {
+				setTimeout(startRandomRipples, 1000);
+				return;
+			}
+
+			// Create a burst of 2-3 ripples
+			const burstCount = Math.floor(Math.random() * 2) + 2; 
+			const centerX = Math.random() * window.innerWidth;
+			const centerY = Math.random() * window.innerHeight;
+
+			for (let i = 0; i < burstCount; i++) {
+				setTimeout(() => {
+					// Each ripple in the burst now gets a completely random location
+					const randomX = Math.random() * window.innerWidth;
+					const randomY = Math.random() * window.innerHeight;
+					createRipple(randomX, randomY);
+				}, i * 400); 
+			}
+
+			setTimeout(startRandomRipples, Math.random() * 3000 + 2000); 
+		}
+
+		document.addEventListener("mousedown", (e) => createRipple(e.clientX, e.clientY), { passive: true });
+		
+		// Start random ripples
+		startRandomRipples();
+
+		// Intersection Observer for scroll animations
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach(entry => {
+				if (entry.isIntersecting) {
+					entry.target.classList.add("show");
+					observer.unobserve(entry.target);
+				}
+			});
+		}, { threshold: 0.1 });
+
+		document.querySelectorAll(".pop").forEach(el => observer.observe(el));
+	}
+
+	// Use a more reliable check for touch devices
+	const isTouchOnly = 'ontouchstart' in window && window.innerWidth < 768;
+	
+	// Initialize after LCP to keep scores high
+	setTimeout(initPerformanceScripts, 300);
+
+	window.addEventListener("resize", () => {
+		const container = document.getElementById("ripple-container");
+		if (container) container.innerHTML = "";
+	}, { passive: true });
+</script>

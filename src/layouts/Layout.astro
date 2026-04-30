@@ -1,0 +1,55 @@
+---
+import '../styles/global.css';
+import CustomCursor from '../components/CustomCursor.astro';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/png" href="/images/portfolio.png" />
+		<meta name="generator" content={Astro.generator} />
+		
+		<!-- Primary Meta Tags -->
+		<title>Shamil Ahammed T | Python Full Stack Developer Portfolio</title>
+		<meta name="title" content="Shamil Ahammed T | Python Full Stack Developer Portfolio" />
+		<meta name="description" content="Explore the portfolio of Shamil Ahammed T, a Python Full Stack Developer specializing in Django, React, and modern web solutions. View my latest projects and skills." />
+		<meta name="keywords" content="Shamil Ahammed T, Python Developer, Django Developer, React Developer, Full Stack Portfolio" />
+		<meta name="author" content="Shamil Ahammed T" />
+		<link rel="canonical" href="https://shamilahmdt.github.io/" />
+
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://shamilahmdt.github.io/" />
+		<meta property="og:title" content="Shamil Ahammed T | Python Full Stack Developer Portfolio" />
+		<meta property="og:description" content="Python Full Stack Developer specializing in Django, React, and modern web solutions." />
+
+		<!-- Performance Optimizations -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		
+		<!-- Optimized Font Loading -->
+		<link rel="preload" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" as="style">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" media="all">
+		<style is:inline>
+			body { background: #0d0c1d; }
+			#ripple-container { pointer-events: none; }
+		</style>
+	</head>
+	<body>
+		<CustomCursor />
+		<div id="ripple-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+		<slot />
+	</body>
+</html>
+
+<style>
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		height: 100%;
+	}
+</style>
+
