@@ -1,9 +1,9 @@
 # 🚀 Shamil Ahammed T | Professional Portfolio
 
 A high-performance, ultra-responsive portfolio website built with **Astro** and **Tailwind CSS**. Designed for speed, accessibility, and a premium user experience.
-
+<!--
 ![Lighthouse Score](https://img.shields.io/badge/Lighthouse-100%2F100%2F100%2F100-brightgreen?style=for-the-badge&logo=googlechrome)
-
+-->
 ## ✨ Key Features
 
 - **⚡ Perfect Performance**: Optimized to achieve 100/100 scores across all Lighthouse categories (Performance, Accessibility, Best Practices, SEO).
